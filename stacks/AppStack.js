@@ -1,12 +1,20 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import React from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+import AuthScreen from "../screens/AuthScreen";
+import SignInScreen from "../screens/SignInScreen";
 
 const AppStack = () => {
+  const Stack = createNativeStackNavigator();
   return (
-    <View>
-      <Text>AppStack</Text>
-    </View>
-  )
-}
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="AppStack" component={SignInScreen} />
+    </Stack.Navigator>
+  );
+};
 
-export default AppStack
+export default AppStack;
