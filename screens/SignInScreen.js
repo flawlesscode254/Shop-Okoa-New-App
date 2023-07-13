@@ -9,8 +9,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import db, { auth } from "../Firebase";
-import useAuth from "../state-manager";
+import { auth } from "../Firebase";
 
 const SignInScreen = () => {
   const [email, setEmail] = useState("");
@@ -21,33 +20,26 @@ const SignInScreen = () => {
 
   const navigation = useNavigation();
 
-  const session = useAuth();
-
   const signIn = () => {
     setShow(!show);
     const regEx = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (!email.match(regEx)) {
       setStatus("Wrong email format!!!");
+      setShow(show);
       setTimeout(() => {
         setStatus("");
       }, 2500);
     } else {
       auth
         .signInWithEmailAndPassword(email.trim(), password.trim())
-        .then((authUser) => {
-          db.collection("users")
-            .doc(authUser.user.uid)
-            .get()
-            .then(async (info) => {
-              await session.persist(info?.data()).then(() => {
-                setEmail("");
-                setPassword("");
-                setShow(show);
-              });
-            });
+        .then(() => {
+          setEmail("");
+          setPassword("");
+          setShow(show);
         })
         .catch((err) => {
           setStatus(err?.message);
+          setShow(show);
           setTimeout(() => {
             setStatus("");
           }, 2500);
