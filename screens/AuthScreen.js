@@ -4,15 +4,15 @@ import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 const AuthScreen = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   const goAccount = () => {
-    navigation.navigate("REGISTER CUSTOMER")
-  }
+    navigation.navigate("CUSTOMER SIGN UP");
+  };
 
   const goVendorRegister = () => {
-    navigation.navigate("REGISTER VENDOR")
-  }
+    navigation.navigate("VENDOR SIGN UP");
+  };
   return (
     <View style={styles.container}>
       <View style={styles.collector}>

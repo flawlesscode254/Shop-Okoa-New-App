@@ -11,7 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import db, { auth } from "../Firebase";
 
-const SignUpScreen = ({ route }) => {
+const CustomerSignUpScreen = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -21,8 +21,6 @@ const SignUpScreen = ({ route }) => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [show, setShow] = useState(false);
   const [status, setStatus] = useState("");
-
-  const { type } = route?.params;
 
   const navigation = useNavigation();
 
@@ -45,7 +43,7 @@ const SignUpScreen = ({ route }) => {
               email: email,
               username: username,
               phoneNumber: phoneNumber,
-              type: type,
+              type: "customer",
             })
             .then(() => {
               setUsername("");
@@ -188,7 +186,7 @@ const SignUpScreen = ({ route }) => {
   );
 };
 
-export default SignUpScreen;
+export default CustomerSignUpScreen;
 
 const styles = StyleSheet.create({
   mainView: {
