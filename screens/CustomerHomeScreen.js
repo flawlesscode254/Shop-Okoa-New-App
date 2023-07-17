@@ -38,7 +38,7 @@ const CustomerHomeScreen = () => {
         />
         <Service title={"Shop Online"} image={ViewShops} link={"Shops"} />
         <Service title={"Pay Debt"} image={PayDebt} link={"PAY MY DEBT"} />
-        <Service title={"Savings"} image={SavingsPod} link={"SAVINGS"} />
+        <Service title={"Savings"} image={SavingsPod} link={"Savings"} />
         <Service
           title={"Trust Score"}
           image={Trustscore}

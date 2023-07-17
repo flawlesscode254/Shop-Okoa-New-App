@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import db, { auth } from "../Firebase";
 import { Ionicons } from "@expo/vector-icons";
@@ -12,6 +12,7 @@ import LoaderScreen from "../screens/LoaderScreen";
 import ShopsScreen from "../screens/ShopsScreen";
 import ProductsScreen from "../screens/ProductsScreen";
 import CustomerCartScreen from "../screens/CustomerCartScreen";
+import SaccosScreen from "../screens/SaccosScreen";
 
 const AppStack = () => {
   const [user, setUser] = useState("");
@@ -42,7 +43,7 @@ const AppStack = () => {
               }));
               if (info.length === 1) {
                 setCartItems(info[0].quantity);
-                setCartCount(info[0].amount);
+                setCartAmount(info[0].amount);
               } else if (info.length > 1) {
                 let totalCount = 0;
                 for (let item of info) {
@@ -92,27 +93,8 @@ const AppStack = () => {
           headerShown: true,
           headerRight: () => {
             return (
-              <View
-                style={{
-                  width: 100,
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  flexDirection: "row",
-                  backgroundColor: "black",
-                  height: 35,
-                  borderRadius: 25,
-                  paddingHorizontal: 15,
-                }}
-              >
-                <Text
-                  style={{
-                    color: "white",
-                    fontWeight: "500",
-                    fontSize: 16,
-                  }}
-                >
-                  {cartCount}
-                </Text>
+              <View style={styles.cartInfo}>
+                <Text style={styles.countText}>{cartCount}</Text>
                 <TouchableOpacity
                   onPress={() => {
                     navigation.navigate("Cart");
@@ -136,51 +118,14 @@ const AppStack = () => {
           headerShown: true,
           headerRight: () => {
             return (
-              <TouchableOpacity
-                style={{
-                  paddingHorizontal: 15,
-                  height: 30,
-                  borderRadius: 25,
-                  backgroundColor: "black",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  flexDirection: "row",
-                }}
-              >
-                <View
-                  style={{
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flexDirection: "row",
-                    marginRight: 20,
-                  }}
-                >
+              <TouchableOpacity style={styles.cartBar}>
+                <View style={styles.countSection}>
                   <Ionicons name="cart" size={20} color="yellow" />
-                  <Text
-                    style={{
-                      color: "white",
-                      marginLeft: 10,
-                    }}
-                  >
-                    {cartItems}
-                  </Text>
+                  <Text style={styles.infoText}>{cartItems}</Text>
                 </View>
-                <View
-                  style={{
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flexDirection: "row",
-                  }}
-                >
+                <View style={styles.amountSection}>
                   <Ionicons name="wallet" size={20} color="yellow" />
-                  <Text
-                    style={{
-                      color: "white",
-                      marginLeft: 10,
-                    }}
-                  >
-                    Ksh. {cartAmount}
-                  </Text>
+                  <Text style={styles.infoText}>Ksh. {cartAmount}</Text>
                 </View>
               </TouchableOpacity>
             );
@@ -189,8 +134,57 @@ const AppStack = () => {
         name="Cart"
         component={CustomerCartScreen}
       />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+        }}
+        name="Savings"
+        component={SaccosScreen}
+      />
     </Stack.Navigator>
   );
 };
 
 export default AppStack;
+
+const styles = StyleSheet.create({
+  cartBar: {
+    paddingHorizontal: 15,
+    height: 30,
+    borderRadius: 25,
+    backgroundColor: "black",
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  countSection: {
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    marginRight: 20,
+  },
+  infoText: {
+    color: "white",
+    marginLeft: 10,
+  },
+  amountSection: {
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  cartInfo: {
+    width: 100,
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+    backgroundColor: "black",
+    height: 35,
+    borderRadius: 25,
+    paddingHorizontal: 15,
+  },
+  countText: {
+    color: "white",
+    fontWeight: "500",
+    fontSize: 16,
+  },
+});
