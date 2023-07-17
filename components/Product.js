@@ -19,6 +19,7 @@ const Product = () => {
         price: 3000,
         productImage: "sdsjdkskdjsds",
         shopId: "sdnslsdklslkds",
+        quantity: 1,
       })
       .then(() => {
         setShow(show);
@@ -33,10 +34,16 @@ const Product = () => {
       </Text>
       <Text style={styles.price}>Ksh. 37,000</Text>
       <TouchableOpacity
-        style={styles.cartButton}
+        style={[
+          styles.cartButton,
+          {
+            opacity: show ? 0.5 : 1,
+          },
+        ]}
         onPress={() => {
           addToCart();
         }}
+        disabled={show}
       >
         {show ? (
           <ActivityIndicator size={20} color="white" />

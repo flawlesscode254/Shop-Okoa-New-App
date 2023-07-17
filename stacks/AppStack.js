@@ -50,7 +50,7 @@ const AppStack = () => {
         },
       }}
     >
-      {/* {user === null ? (
+      {user === null ? (
         <Stack.Screen name="AuthStack" component={AuthStack} />
       ) : !!user && user?.email ? (
         <Stack.Screen name="CustomerStack" component={CustomerStack} />
@@ -63,7 +63,7 @@ const AppStack = () => {
         }}
         name="Shops"
         component={ShopsScreen}
-      /> */}
+      />
       <Stack.Screen
         options={{
           headerShown: true,

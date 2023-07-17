@@ -1,9 +1,16 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
 
 const Shop = () => {
+  const navigation = useNavigation();
   return (
-    <TouchableOpacity style={styles.mainView}>
+    <TouchableOpacity
+      style={styles.mainView}
+      onPress={() => {
+        navigation.navigate("Products");
+      }}
+    >
       <Image source={require("../assets/clothes.png")} style={styles.image} />
       <View style={styles.infoSection}>
         <Text numberOfLines={1} style={styles.shopName}>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, ScrollView, View } from "react-native";
+import { StyleSheet, ScrollView, View, Text } from "react-native";
 import db, { auth } from "../Firebase";
+import { Ionicons } from "@expo/vector-icons";
 
 import CartItem from "../components/CartItem";
 
@@ -17,13 +18,21 @@ const CustomerCartScreen = () => {
       );
     });
   }, []);
+
   return (
     <View>
-      <ScrollView contentContainerStyle={styles.productsScection}>
-        {cart.map((item) => {
-          return <CartItem key={item?.id} data={item?.data} />;
-        })}
-      </ScrollView>
+      {cart.length > 0 ? (
+        <ScrollView contentContainerStyle={styles.productsScection}>
+          {cart.map((item) => {
+            return <CartItem key={item?.id} id={item?.id} data={item?.data} />;
+          })}
+        </ScrollView>
+      ) : (
+        <View style={styles.warnSection}>
+          <Ionicons name="alert-circle-outline" size={100} />
+          <Text>There is nothing to show here</Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -38,5 +47,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     padding: 20,
+  },
+  warnSection: {
+    height: "100%",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
