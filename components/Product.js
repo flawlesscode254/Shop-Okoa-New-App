@@ -1,29 +1,16 @@
-import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  ActivityIndicator,
-} from "react-native";
+import React from "react";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import db, { auth } from "../Firebase";
 
 const Product = () => {
-  const [show, setShow] = useState(false);
   const addToCart = () => {
-    setShow(!show);
-    db.collection(`cart${auth?.currentUser?.email}`)
-      .add({
-        productName: "Soap",
-        price: 3000,
-        productImage: "sdsjdkskdjsds",
-        shopId: "sdnslsdklslkds",
-        quantity: 1,
-      })
-      .then(() => {
-        setShow(show);
-      });
+    db.collection(`cart${auth?.currentUser?.email}`).add({
+      productName: "Soap",
+      price: 3000,
+      productImage: "sdsjdkskdjsds",
+      shopId: "sdnslsdklslkds",
+      quantity: 1,
+    });
   };
 
   return (
@@ -34,22 +21,12 @@ const Product = () => {
       </Text>
       <Text style={styles.price}>Ksh. 37,000</Text>
       <TouchableOpacity
-        style={[
-          styles.cartButton,
-          {
-            opacity: show ? 0.5 : 1,
-          },
-        ]}
+        style={styles.cartButton}
         onPress={() => {
           addToCart();
         }}
-        disabled={show}
       >
-        {show ? (
-          <ActivityIndicator size={20} color="white" />
-        ) : (
-          <Text style={styles.buttonText}>Add to Cart</Text>
-        )}
+        <Text style={styles.buttonText}>Add to Cart</Text>
       </TouchableOpacity>
     </View>
   );

@@ -38,7 +38,9 @@ const CartItem = ({ id, data }) => {
       <Text style={styles.name} numberOfLines={1}>
         {data?.productName}
       </Text>
-      <Text style={styles.price}>Ksh. {data?.price}</Text>
+      <Text style={styles.price}>
+        Ksh. {Number(data?.price) * Number(data?.quantity)}
+      </Text>
       <View style={styles.actionsSection}>
         <TouchableOpacity
           style={[

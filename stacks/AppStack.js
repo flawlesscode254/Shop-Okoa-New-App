@@ -16,6 +16,8 @@ import CustomerCartScreen from "../screens/CustomerCartScreen";
 const AppStack = () => {
   const [user, setUser] = useState("");
   const [cartCount, setCartCount] = useState(0);
+  const [cartItems, setCartItems] = useState(0);
+  const [cartAmount, setCartAmount] = useState(0);
 
   const navigation = useNavigation();
 
@@ -33,6 +35,27 @@ const AppStack = () => {
           db.collection(`cart${auth?.currentUser?.email}`).onSnapshot(
             (snapshot) => {
               setCartCount(snapshot.docs.length);
+              let info = snapshot.docs.map((doc) => ({
+                id: doc.id,
+                quantity: Number(doc?.data()?.quantity),
+                amount: Number(doc?.data()?.price),
+              }));
+              if (info.length === 1) {
+                setCartItems(info[0].quantity);
+                setCartCount(info[0].amount);
+              } else if (info.length > 1) {
+                let totalCount = 0;
+                for (let item of info) {
+                  totalCount += item.quantity;
+                }
+                setCartItems(totalCount);
+
+                let totalAmount = 0;
+                for (let item of info) {
+                  totalAmount += item.amount * item.quantity;
+                }
+                setCartAmount(totalAmount);
+              }
             }
           );
         });
@@ -111,6 +134,57 @@ const AppStack = () => {
       <Stack.Screen
         options={{
           headerShown: true,
+          headerRight: () => {
+            return (
+              <TouchableOpacity
+                style={{
+                  paddingHorizontal: 15,
+                  height: 30,
+                  borderRadius: 25,
+                  backgroundColor: "black",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  flexDirection: "row",
+                }}
+              >
+                <View
+                  style={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection: "row",
+                    marginRight: 20,
+                  }}
+                >
+                  <Ionicons name="cart" size={20} color="yellow" />
+                  <Text
+                    style={{
+                      color: "white",
+                      marginLeft: 10,
+                    }}
+                  >
+                    {cartItems}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection: "row",
+                  }}
+                >
+                  <Ionicons name="wallet" size={20} color="yellow" />
+                  <Text
+                    style={{
+                      color: "white",
+                      marginLeft: 10,
+                    }}
+                  >
+                    Ksh. {cartAmount}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            );
+          },
         }}
         name="Cart"
         component={CustomerCartScreen}
