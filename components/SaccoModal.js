@@ -1,8 +1,38 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import Modal from "react-native-modal";
+import db, { auth } from "../Firebase";
 
-const SaccoModal = ({ saccoName, showModal, setShowModal }) => {
+const SaccoModal = ({
+  saccoId,
+  saccoName,
+  saccoTarget,
+  showModal,
+  setShowModal,
+}) => {
+  const [show, setShow] = useState(false);
+
+  const joinSacco = () => {
+    setShow(!show);
+    db.collection("saccos")
+      .doc(auth?.currentUser?.email)
+      .set({
+        saccoName: saccoName,
+        saccoTarget: saccoTarget,
+        contribution: 0,
+        loanLimit: 0,
+      })
+      .then(() => {
+        setShow(show);
+        setShowModal(false);
+      });
+  };
   return (
     <Modal isVisible={showModal} style={styles.modalView} backdropOpacity={0.5}>
       <View style={styles.mainView}>
@@ -23,14 +53,23 @@ const SaccoModal = ({ saccoName, showModal, setShowModal }) => {
             <Text style={styles.actionText}>No</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            disabled={show}
             style={[
               styles.actionButton,
               {
                 backgroundColor: "#07b836",
+                opacity: show ? 0.5 : 1,
               },
             ]}
+            onPress={() => {
+              joinSacco();
+            }}
           >
-            <Text style={styles.actionText}>Yes</Text>
+            {show ? (
+              <ActivityIndicator size={20} color="white" />
+            ) : (
+              <Text style={styles.actionText}>Yes</Text>
+            )}
           </TouchableOpacity>
         </View>
       </View>

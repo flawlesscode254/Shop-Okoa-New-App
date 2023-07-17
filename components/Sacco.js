@@ -7,7 +7,6 @@ const Sacco = ({
   saccoBackground,
   id,
   saccoName,
-  saccoRank,
   saccoLocation,
   saccoMembers,
   saccoContributions,
@@ -27,7 +26,9 @@ const Sacco = ({
       }}
     >
       <SaccoModal
+        saccoId={id}
         saccoName={saccoName}
+        saccoTarget={saccoTarget}
         showModal={showModal}
         setShowModal={setShowModal}
       />
@@ -39,8 +40,8 @@ const Sacco = ({
             <Text style={styles.location}>{saccoLocation}</Text>
           </View>
           <View style={styles.infoSection}>
-            <Text style={styles.infoCount}>{saccoRank}</Text>
-            <Text style={styles.infoTitle}>Ranking</Text>
+            <Text style={styles.infoCount}>Ksh. {saccoTarget}</Text>
+            <Text style={styles.infoTitle}>Target</Text>
           </View>
         </View>
         <View style={styles.bottomSection}>
@@ -49,12 +50,8 @@ const Sacco = ({
             <Text style={styles.infoTitle}>Members</Text>
           </View>
           <View style={styles.infoSection}>
-            <Text style={styles.infoCount}>{saccoContributions}</Text>
+            <Text style={styles.infoCount}>Ksh. {saccoContributions}</Text>
             <Text style={styles.infoTitle}>Contributions</Text>
-          </View>
-          <View style={styles.infoSection}>
-            <Text style={styles.infoCount}>{saccoTarget}</Text>
-            <Text style={styles.infoTitle}>Target</Text>
           </View>
         </View>
       </View>
