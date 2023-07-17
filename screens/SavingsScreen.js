@@ -2,8 +2,13 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import db, { auth } from "../Firebase";
 
+import DepositModal from "../components/DepositModal";
+import WithdrawModal from "../components/WithdrawModal";
+
 const SavingsScreen = () => {
   const [saccoData, setSaccoData] = useState({});
+  const [showDepositModal, setShowDepositModal] = useState(false);
+  const [showWithdrawModal, setShowWithdrawModal] = useState(false);
 
   useEffect(() => {
     db.collection("saccos")
@@ -19,6 +24,14 @@ const SavingsScreen = () => {
 
   return (
     <View style={styles.mainView}>
+      <DepositModal
+        showDepositModal={showDepositModal}
+        setShowDepositModal={setShowDepositModal}
+      />
+      <WithdrawModal
+        showWithdrawModal={showWithdrawModal}
+        setShowWithdrawModal={setShowWithdrawModal}
+      />
       <View style={styles.cardSection}>
         <Text style={styles.savingsTitle}>SACCO SAVINGS</Text>
         <View style={styles.amountSection}>
@@ -87,6 +100,9 @@ const SavingsScreen = () => {
               backgroundColor: "#07b836",
             },
           ]}
+          onPress={() => {
+            setShowDepositModal(true);
+          }}
         >
           <Text style={styles.actionText}>Deposit</Text>
         </TouchableOpacity>
@@ -97,12 +113,29 @@ const SavingsScreen = () => {
               backgroundColor: "red",
             },
           ]}
+          onPress={() => {
+            setShowWithdrawModal(true);
+          }}
         >
           <Text style={styles.actionText}>Withdraw</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.loanSection}>
-        <Text style={styles.loansTitle}>Loans</Text>
+        <Text style={styles.loansTitle}>Ksh. 3200</Text>
+        <View style={styles.statsSection}>
+          <View style={styles.statsDescription}>
+            <Text style={styles.statsTitle}>Paid(Ksh)</Text>
+            <Text>2400</Text>
+          </View>
+          <View style={styles.statsDescription}>
+            <Text style={styles.statsTitle}>Balance(Ksh)</Text>
+            <Text>800</Text>
+          </View>
+          <View style={styles.statsDescription}>
+            <Text style={styles.statsTitle}>Interest(Ksh)</Text>
+            <Text>200</Text>
+          </View>
+        </View>
         <View style={styles.loanAction}>
           <TouchableOpacity
             style={[
@@ -186,7 +219,6 @@ const styles = StyleSheet.create({
   },
   loansTitle: {
     fontSize: 18,
-    marginTop: 30,
   },
   loanAction: {
     marginTop: 30,
@@ -205,5 +237,19 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     padding: 20,
     borderStyle: "dotted",
+  },
+  statsSection: {
+    width: "100%",
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+    marginTop: 10,
+  },
+  statsDescription: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  statsTitle: {
+    fontWeight: "bold",
   },
 });
