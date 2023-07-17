@@ -3,14 +3,13 @@ import "firebase/auth";
 import "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDDJIlLwdljpXu0PrjiVlQ1XeRlO8PddyQ",
-  authDomain: "instant-pesa-edd2a.firebaseapp.com",
-  databaseURL: "https://instant-pesa-edd2a-default-rtdb.firebaseio.com",
-  projectId: "instant-pesa-edd2a",
-  storageBucket: "instant-pesa-edd2a.appspot.com",
-  messagingSenderId: "125042971205",
-  appId: "1:125042971205:web:959146dc399dd76bef092c",
-  measurementId: "G-8VCF8TGL1X",
+  apiKey: "AIzaSyDsv-S4mam7s0BcRq2KYAIxOocF6ipR43E",
+  authDomain: "shop-project-91adc.firebaseapp.com",
+  databaseURL: "https://shop-project-91adc-default-rtdb.firebaseio.com",
+  projectId: "shop-project-91adc",
+  storageBucket: "shop-project-91adc.appspot.com",
+  messagingSenderId: "272621424538",
+  appId: "1:272621424538:web:19329300ab2911567eb423"
 };
 
 let app;
