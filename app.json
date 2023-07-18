@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "ShopOkoa",
-    "slug": "ShopOkoa",
-    "version": "1.0.0",
+    "name": "Shop Okoa",
+    "slug": "shop-okoa",
+    "version": "1.0.18",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -21,10 +19,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "versionCode": 19,
+      "package": "com.shopokoa.shopokoa"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4e758df1-17e3-46e4-ab3a-b478b058c85f"
+      }
     }
   }
 }

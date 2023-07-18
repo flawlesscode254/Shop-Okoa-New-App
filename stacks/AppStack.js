@@ -13,12 +13,11 @@ import ShopsScreen from "../screens/ShopsScreen";
 import ProductsScreen from "../screens/ProductsScreen";
 import CustomerCartScreen from "../screens/CustomerCartScreen";
 import SaccosScreen from "../screens/SaccosScreen";
+import CustomerDebtScreen from "../screens/CustomerDebtScreen";
 
 const AppStack = () => {
   const [user, setUser] = useState("");
   const [cartCount, setCartCount] = useState(0);
-  const [cartItems, setCartItems] = useState(0);
-  const [cartAmount, setCartAmount] = useState(0);
 
   const navigation = useNavigation();
 
@@ -36,27 +35,6 @@ const AppStack = () => {
           db.collection(`cart${auth?.currentUser?.email}`).onSnapshot(
             (snapshot) => {
               setCartCount(snapshot.docs.length);
-              let info = snapshot.docs.map((doc) => ({
-                id: doc.id,
-                quantity: Number(doc?.data()?.quantity),
-                amount: Number(doc?.data()?.price),
-              }));
-              if (info.length === 1) {
-                setCartItems(info[0].quantity);
-                setCartAmount(info[0].amount);
-              } else if (info.length > 1) {
-                let totalCount = 0;
-                for (let item of info) {
-                  totalCount += item.quantity;
-                }
-                setCartItems(totalCount);
-
-                let totalAmount = 0;
-                for (let item of info) {
-                  totalAmount += item.amount * item.quantity;
-                }
-                setCartAmount(totalAmount);
-              }
             }
           );
         });
@@ -116,20 +94,6 @@ const AppStack = () => {
       <Stack.Screen
         options={{
           headerShown: true,
-          headerRight: () => {
-            return (
-              <TouchableOpacity style={styles.cartBar}>
-                <View style={styles.countSection}>
-                  <Ionicons name="cart" size={20} color="yellow" />
-                  <Text style={styles.infoText}>{cartItems}</Text>
-                </View>
-                <View style={styles.amountSection}>
-                  <Ionicons name="wallet" size={20} color="yellow" />
-                  <Text style={styles.infoText}>Ksh. {cartAmount}</Text>
-                </View>
-              </TouchableOpacity>
-            );
-          },
         }}
         name="Cart"
         component={CustomerCartScreen}
@@ -140,6 +104,13 @@ const AppStack = () => {
         }}
         name="Savings"
         component={SaccosScreen}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+        }}
+        name="Pay Debt"
+        component={CustomerDebtScreen}
       />
     </Stack.Navigator>
   );
@@ -154,21 +125,6 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     backgroundColor: "black",
     justifyContent: "space-between",
-    alignItems: "center",
-    flexDirection: "row",
-  },
-  countSection: {
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-    marginRight: 20,
-  },
-  infoText: {
-    color: "white",
-    marginLeft: 10,
-  },
-  amountSection: {
-    justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
   },

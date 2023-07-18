@@ -37,7 +37,7 @@ const CustomerHomeScreen = () => {
           link={"SHOPOKOA MOBILE SERVICES"}
         />
         <Service title={"Shop Online"} image={ViewShops} link={"Shops"} />
-        <Service title={"Pay Debt"} image={PayDebt} link={"PAY MY DEBT"} />
+        <Service title={"Pay Debt"} image={PayDebt} link={"Pay Debt"} />
         <Service title={"Savings"} image={SavingsPod} link={"Savings"} />
         <Service
           title={"Trust Score"}
@@ -76,6 +76,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     width: "100%",
-    marginTop: 20
+    marginTop: 20,
   },
 });

@@ -35,7 +35,7 @@ const SavingsScreen = () => {
       <View style={styles.cardSection}>
         <Text style={styles.savingsTitle}>{saccoData?.saccoName}</Text>
         <View style={styles.amountSection}>
-          <Text style={styles.amountTitle}>TARGET:</Text>
+          <Text style={styles.amountTitle}>MONTHLY TARGET:</Text>
           <Text
             style={[
               styles.amountCount,
