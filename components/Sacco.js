@@ -41,7 +41,7 @@ const Sacco = ({
           </View>
           <View style={styles.infoSection}>
             <Text style={styles.infoCount}>Ksh. {saccoTarget}</Text>
-            <Text style={styles.infoTitle}>Target</Text>
+            <Text style={styles.infoTitle}>Monthly Target</Text>
           </View>
         </View>
         <View style={styles.bottomSection}>

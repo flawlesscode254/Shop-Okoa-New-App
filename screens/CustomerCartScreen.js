@@ -61,6 +61,7 @@ const CustomerCartScreen = () => {
         });
     }
     setShow(show);
+    setShowModal(false);
   };
 
   return (

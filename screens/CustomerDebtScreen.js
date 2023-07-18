@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import db, { auth } from "../Firebase";
+import { Ionicons } from "@expo/vector-icons";
 
 const CustomerDebtScreen = () => {
   const [debt, setDebt] = useState({});
@@ -19,15 +20,18 @@ const CustomerDebtScreen = () => {
   useEffect(() => {
     db.collection(`purchases${auth?.currentUser?.email}`).onSnapshot(
       (snapshot) => {
-        let info = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          price: doc?.data()?.data?.price,
-        }));
-        let sum = info.reduce((a, b) => Number(a?.price) + Number(b?.price));
-        setDebt({
-          total: Number(sum),
-          interest: Number(sum) * 0.075,
-        });
+        if (snapshot.docs.length > 0) {
+          let info = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            price: doc?.data()?.data?.price,
+          }));
+          let calcSum = info.map((item) => item?.price);
+          let sum = calcSum.reduce((a, b) => a + b);
+          setDebt({
+            total: Number(sum),
+            interest: Number(sum) * 0.075,
+          });
+        }
       }
     );
   }, []);
@@ -80,92 +84,101 @@ const CustomerDebtScreen = () => {
 
   return (
     <View style={styles.mainView}>
-      <View style={styles.statsView}>
-        <Text style={styles.totalText}>
-          Ksh.
-          {parseFloat(Number(debt?.total) + Number(debt?.interest))
-            .toFixed(0)
-            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-        </Text>
-        <View style={styles.firstSection}>
-          <View style={styles.infoSection}>
-            <Text style={styles.amountTitle}>Actual(Ksh)</Text>
-            <Text style={styles.amountCount}>
-              {parseFloat(Number(debt?.total))
+      {Object.keys(debt).length > 0 && Object.keys(payment).length > 0 ? (
+        <>
+          <View style={styles.statsView}>
+            <Text style={styles.totalText}>
+              Ksh.
+              {parseFloat(Number(debt?.total) + Number(debt?.interest))
                 .toFixed(0)
                 .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
             </Text>
-          </View>
-          <View style={styles.infoSection}>
-            <Text style={styles.amountTitle}>Interest(Ksh)</Text>
-            <Text style={styles.amountCountRef}>
-              {" "}
-              {parseFloat(Number(debt?.interest))
-                .toFixed(0)
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-            </Text>
-          </View>
-        </View>
-        <View style={styles.secondSection}>
-          <View style={styles.infoSection}>
-            <Text style={styles.amountTitle}>Paid(Ksh)</Text>
-            <Text style={styles.amountCount}>
-              {" "}
-              {parseFloat(Number(payment?.paid))
-                .toFixed(0)
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-            </Text>
-          </View>
-          <View style={styles.infoSection}>
-            <Text style={styles.amountTitle}>Balance(Ksh)</Text>
-            <Text style={styles.amountCountRef}>
-              {Number(debt?.total) +
-                Number(debt?.interest) -
-                Number(payment?.paid) <
-              0
-                ? 0
-                : parseFloat(
-                    Number(debt?.total) +
-                      Number(debt?.interest) -
-                      Number(payment?.paid)
-                  )
+            <View style={styles.firstSection}>
+              <View style={styles.infoSection}>
+                <Text style={styles.amountTitle}>Actual(Ksh)</Text>
+                <Text style={styles.amountCount}>
+                  {parseFloat(Number(debt?.total))
                     .toFixed(0)
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-            </Text>
+                </Text>
+              </View>
+              <View style={styles.infoSection}>
+                <Text style={styles.amountTitle}>Interest(Ksh)</Text>
+                <Text style={styles.amountCountRef}>
+                  {" "}
+                  {parseFloat(Number(debt?.interest))
+                    .toFixed(0)
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.secondSection}>
+              <View style={styles.infoSection}>
+                <Text style={styles.amountTitle}>Paid(Ksh)</Text>
+                <Text style={styles.amountCount}>
+                  {" "}
+                  {parseFloat(Number(payment?.paid))
+                    .toFixed(0)
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                </Text>
+              </View>
+              <View style={styles.infoSection}>
+                <Text style={styles.amountTitle}>Balance(Ksh)</Text>
+                <Text style={styles.amountCountRef}>
+                  {Number(debt?.total) +
+                    Number(debt?.interest) -
+                    Number(payment?.paid) <
+                  0
+                    ? 0
+                    : parseFloat(
+                        Number(debt?.total) +
+                          Number(debt?.interest) -
+                          Number(payment?.paid)
+                      )
+                        .toFixed(0)
+                        .replace(/\B(?=(\d{3console.log(sum);})+(?!\d))/g, ",")}
+                </Text>
+              </View>
+            </View>
           </View>
+          <View style={styles.statusSection}>
+            {status && <Text style={styles.statusText}>{status}</Text>}
+          </View>
+          <View style={styles.paymentSection}>
+            <TextInput
+              placeholder="Enter amount to pay..."
+              maxLength={10}
+              keyboardType="numeric"
+              value={amount}
+              onChangeText={(text) => setAmount(text)}
+              style={styles.input}
+            />
+            <TouchableOpacity
+              disabled={!amount}
+              style={[
+                styles.payButton,
+                {
+                  opacity: amount ? 1 : 0.5,
+                },
+              ]}
+              onPress={() => {
+                makePayment();
+              }}
+            >
+              {show ? (
+                <ActivityIndicator size={25} color="white" />
+              ) : (
+                <Text style={styles.payText}>Pay</Text>
+              )}
+            </TouchableOpacity>
+          </View>
+        </>
+      ) : (
+        <View style={styles.warnSection}>
+          <Ionicons name="alert-circle-outline" size={100} />
+          <Text>There is nothing to show here</Text>
         </View>
-      </View>
-      <View style={styles.statusSection}>
-        {status && <Text style={styles.statusText}>{status}</Text>}
-      </View>
-      <View style={styles.paymentSection}>
-        <TextInput
-          placeholder="Enter amount to pay..."
-          maxLength={10}
-          keyboardType="numeric"
-          value={amount}
-          onChangeText={(text) => setAmount(text)}
-          style={styles.input}
-        />
-        <TouchableOpacity
-          disabled={!amount}
-          style={[
-            styles.payButton,
-            {
-              opacity: amount ? 1 : 0.5,
-            },
-          ]}
-          onPress={() => {
-            makePayment();
-          }}
-        >
-          {show ? (
-            <ActivityIndicator size={25} color="white" />
-          ) : (
-            <Text style={styles.payText}>Pay</Text>
-          )}
-        </TouchableOpacity>
-      </View>
+      )}
     </View>
   );
 };
@@ -250,5 +263,11 @@ const styles = StyleSheet.create({
   },
   statusText: {
     color: "red",
+  },
+  warnSection: {
+    height: "100%",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

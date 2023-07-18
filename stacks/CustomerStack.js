@@ -1,10 +1,10 @@
 import React from "react";
-import { StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
 import CustomerHomeScreen from "../screens/CustomerHomeScreen";
 import CustomerCartScreen from "../screens/CustomerCartScreen";
+import CustomerPurchaseScreen from "../screens/CustomerPurchaseScreen";
 import CustomerProfileScreen from "../screens/CustomerProfileScreen";
 
 const CustomerStack = () => {
@@ -19,6 +19,10 @@ const CustomerStack = () => {
 
         case "Profile":
           iconName = "person";
+          break;
+
+        case "Purchases":
+          iconName = "wallet";
           break;
 
         case "Cart":
@@ -54,28 +58,11 @@ const CustomerStack = () => {
   return (
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen name="Home" component={CustomerHomeScreen} />
-      <Tab.Screen
-        name="Cart"
-        options={{
-          headerTitleAlign: "left",
-        }}
-        component={CustomerCartScreen}
-      />
+      <Tab.Screen name="Cart" component={CustomerCartScreen} />
+      <Tab.Screen name="Purchases" component={CustomerPurchaseScreen} />
       <Tab.Screen name="Profile" component={CustomerProfileScreen} />
     </Tab.Navigator>
   );
 };
 
 export default CustomerStack;
-
-const styles = StyleSheet.create({
-  cartBar: {
-    paddingHorizontal: 15,
-    height: 30,
-    borderRadius: 25,
-    backgroundColor: "black",
-    justifyContent: "space-between",
-    alignItems: "center",
-    flexDirection: "row",
-  },
-});

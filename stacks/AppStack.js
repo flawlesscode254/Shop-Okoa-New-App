@@ -14,6 +14,11 @@ import ProductsScreen from "../screens/ProductsScreen";
 import CustomerCartScreen from "../screens/CustomerCartScreen";
 import SaccosScreen from "../screens/SaccosScreen";
 import CustomerDebtScreen from "../screens/CustomerDebtScreen";
+import OkoaScreen from "../screens/OkoaScreen";
+import TrustScoreScreen from "../screens/TrustScoreScreen";
+import PayBillScreen from "../screens/PayBillsScreen";
+import FamilySupportScreen from "../screens/FamilySupportScreen";
+import HealthInsuranceScreen from "../screens/HealthInsuranceScreen";
 
 const AppStack = () => {
   const [user, setUser] = useState("");
@@ -111,6 +116,41 @@ const AppStack = () => {
         }}
         name="Pay Debt"
         component={CustomerDebtScreen}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+        }}
+        name="Shop Mobile Services"
+        component={OkoaScreen}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+        }}
+        name="Trust Score"
+        component={TrustScoreScreen}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+        }}
+        name="Pay Bills"
+        component={PayBillScreen}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+        }}
+        name="Family Support"
+        component={FamilySupportScreen}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+        }}
+        name="Health Insurance"
+        component={HealthInsuranceScreen}
       />
     </Stack.Navigator>
   );

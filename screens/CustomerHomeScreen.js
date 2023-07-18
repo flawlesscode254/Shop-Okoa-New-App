@@ -31,29 +31,25 @@ const CustomerHomeScreen = () => {
     <View style={styles.mainView}>
       <Text style={styles.greetingsText}>Hello, {user?.username}</Text>
       <View style={styles.servicesSection}>
-        <Service
-          title={"Okoa"}
-          image={Cash}
-          link={"SHOPOKOA MOBILE SERVICES"}
-        />
+        <Service title={"Okoa"} image={Cash} link={"Shop Mobile Services"} />
         <Service title={"Shop Online"} image={ViewShops} link={"Shops"} />
         <Service title={"Pay Debt"} image={PayDebt} link={"Pay Debt"} />
         <Service title={"Savings"} image={SavingsPod} link={"Savings"} />
         <Service
           title={"Trust Score"}
           image={Trustscore}
-          link={"TRUST SCORE"}
+          link={"Trust Score"}
         />
         <Service
           title={"Health Insurance"}
           image={Insurance}
-          link={"HEALTH INSURANCE"}
+          link={"Health Insurance"}
         />
-        <Service title={"Pay Bills"} image={Bills} link={"PAY BILLS"} />
+        <Service title={"Pay Bills"} image={Bills} link={"Pay Bills"} />
         <Service
           title={"Family Support"}
           image={FamilySupport}
-          link={"FAMILY SUPPORT"}
+          link={"Family Support"}
         />
       </View>
     </View>
