@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,38 +8,31 @@ import {
   ActivityIndicator,
 } from "react-native";
 import Modal from "react-native-modal";
-import db, { auth } from "../Firebase";
+import { auth } from "../Firebase";
 
 const DepositModal = ({ showDepositModal, setShowDepositModal }) => {
   const [amount, setAmount] = useState("");
   const [show, setShow] = useState(false);
   const [status, setStatus] = useState("");
 
-  useEffect(() => {
-    db.collection("transactions")
-      .doc(auth?.currentUser?.email)
-      .onSnapshot((snapshot) => {
-        setStatus(snapshot?.data());
-        setTimeout(() => {
-          setStatus("");
-        }, 2500);
-      });
-  }, []);
-
   const makeDeposit = () => {
     setShow(!show);
-    fetch("https://payments.shopokoa.com/payments/category/saccos/savings/deposit", {
-      method: "POST",
-      body: JSON.stringify({
-        email: auth?.currentUser?.email,
-        amount: amount,
-        category: "savings",
-        type: "deposit",
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    fetch(
+      "https://payments.shopokoa.com/payments/category/saccos/savings/deposit",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          email: auth?.currentUser?.email,
+          amount: amount,
+          category: "savings",
+          type: "deposit",
+          phone_number: "254769084353",
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
       .then((res) => res.json())
       .then((final) => {
         setShow(show);
@@ -67,7 +60,7 @@ const DepositModal = ({ showDepositModal, setShowDepositModal }) => {
           onChangeText={(text) => setAmount(text)}
         />
         <View style={styles.statusSection}>
-          {status && <Text style={styles.statusText}>Completed</Text>}
+          {status && <Text style={styles.statusText}>{status}</Text>}
         </View>
         <View style={styles.actionSection}>
           <TouchableOpacity

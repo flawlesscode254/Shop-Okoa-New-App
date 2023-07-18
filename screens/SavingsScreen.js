@@ -33,7 +33,7 @@ const SavingsScreen = () => {
         setShowWithdrawModal={setShowWithdrawModal}
       />
       <View style={styles.cardSection}>
-        <Text style={styles.savingsTitle}>SACCO SAVINGS</Text>
+        <Text style={styles.savingsTitle}>{saccoData?.saccoName}</Text>
         <View style={styles.amountSection}>
           <Text style={styles.amountTitle}>TARGET:</Text>
           <Text
@@ -44,7 +44,10 @@ const SavingsScreen = () => {
               },
             ]}
           >
-            Ksh. {saccoData?.saccoTarget}
+            Ksh.{" "}
+            {parseFloat(saccoData?.saccoTarget)
+              .toFixed(0)
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
           </Text>
         </View>
         <View style={styles.amountSection}>
@@ -57,7 +60,10 @@ const SavingsScreen = () => {
               },
             ]}
           >
-            Ksh. {saccoData?.contribution}
+            Ksh.{" "}
+            {parseFloat(saccoData?.contribution)
+              .toFixed(0)
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
           </Text>
         </View>
         <View style={styles.amountSection}>
@@ -74,8 +80,12 @@ const SavingsScreen = () => {
             {Number(saccoData?.saccoTarget) - Number(saccoData?.contribution) <
             0
               ? 0
-              : Number(saccoData?.saccoTarget) -
-                Number(saccoData?.contribution)}
+              : parseFloat(
+                  Number(saccoData?.saccoTarget) -
+                    Number(saccoData?.contribution)
+                )
+                  .toFixed(0)
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
           </Text>
         </View>
         <View style={styles.amountSection}>
@@ -88,7 +98,10 @@ const SavingsScreen = () => {
               },
             ]}
           >
-            Ksh. {saccoData?.loanLimit}
+            Ksh.{" "}
+            {parseFloat(saccoData?.loanLimit)
+              .toFixed(0)
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
           </Text>
         </View>
       </View>
@@ -181,6 +194,7 @@ const styles = StyleSheet.create({
     color: "#07b836",
     fontWeight: "bold",
     fontSize: 20,
+    textTransform: "uppercase",
   },
   userName: {
     color: "white",
@@ -251,5 +265,17 @@ const styles = StyleSheet.create({
   },
   statsTitle: {
     fontWeight: "bold",
+  },
+  exitButton: {
+    marginTop: 10,
+    height: 40,
+    width: "50%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "red",
+    borderRadius: 7,
+  },
+  exitText: {
+    color: "white",
   },
 });

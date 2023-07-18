@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,23 +8,12 @@ import {
   ActivityIndicator,
 } from "react-native";
 import Modal from "react-native-modal";
-import db, { auth } from "../Firebase";
+import { auth } from "../Firebase";
 
 const WithdrawModal = ({ showWithdrawModal, setShowWithdrawModal }) => {
   const [amount, setAmount] = useState("");
   const [show, setShow] = useState(false);
   const [status, setStatus] = useState("");
-
-  useEffect(() => {
-    db.collection("transactions")
-      .doc(auth?.currentUser?.email)
-      .onSnapshot((snapshot) => {
-        setStatus(snapshot?.data());
-        setTimeout(() => {
-          setStatus("");
-        }, 2500);
-      });
-  }, []);
 
   const makeWithdraw = () => {
     setShow(!show);
@@ -70,7 +59,7 @@ const WithdrawModal = ({ showWithdrawModal, setShowWithdrawModal }) => {
           onChangeText={(text) => setAmount(text)}
         />
         <View style={styles.statusSection}>
-          {status && <Text style={styles.statusText}>Completed</Text>}
+          {status && <Text style={styles.statusText}>{status}</Text>}
         </View>
         <View style={styles.actionSection}>
           <TouchableOpacity
