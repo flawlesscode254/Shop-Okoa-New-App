@@ -50,26 +50,31 @@ const CustomerDebtScreen = () => {
 
   const makePayment = () => {
     setShow(!show);
-    fetch("https://payments.shopokoa.com/payments/category/debt/deposit/", {
-      method: "POST",
-      body: JSON.stringify({
-        email: auth?.currentUser?.email,
-        amount: amount,
-        category: "debt",
-        type: "deposit",
-        phone_number: "254769084353",
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((final) => {
-        setShow(show);
-        setStatus(final?.message);
-        setTimeout(() => {
-          setStatus("");
-        }, 2500);
+    db.collection("users")
+      .doc(auth?.currentUser?.uid)
+      .get()
+      .then((info) => {
+        fetch("https://payments.shopokoa.com/payments/category/debt/deposit/", {
+          method: "POST",
+          body: JSON.stringify({
+            email: auth?.currentUser?.email,
+            amount: amount,
+            category: "debt",
+            type: "deposit",
+            phone_number: `254${info?.data()?.phoneNumber?.slice(1)}`,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((final) => {
+            setShow(show);
+            setStatus(final?.message);
+            setTimeout(() => {
+              setStatus("");
+            }, 2500);
+          });
       });
   };
 

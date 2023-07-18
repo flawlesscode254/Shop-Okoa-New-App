@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import Modal from "react-native-modal";
-import { auth } from "../Firebase";
+import db, { auth } from "../Firebase";
 
 const DepositModal = ({ showDepositModal, setShowDepositModal }) => {
   const [amount, setAmount] = useState("");
@@ -17,29 +17,34 @@ const DepositModal = ({ showDepositModal, setShowDepositModal }) => {
 
   const makeDeposit = () => {
     setShow(!show);
-    fetch(
-      "https://payments.shopokoa.com/payments/category/saccos/savings/deposit",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          email: auth?.currentUser?.email,
-          amount: amount,
-          category: "savings",
-          type: "deposit",
-          phone_number: "254769084353",
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((final) => {
-        setShow(show);
-        setStatus(final?.message);
-        setTimeout(() => {
-          setStatus("");
-        }, 2500);
+    db.collection("users")
+      .doc(auth?.currentUser?.uid)
+      .get()
+      .then((info) => {
+        fetch(
+          "https://payments.shopokoa.com/payments/category/saccos/savings/deposit",
+          {
+            method: "POST",
+            body: JSON.stringify({
+              email: auth?.currentUser?.email,
+              amount: amount,
+              category: "savings",
+              type: "deposit",
+              phone_number: `254${info?.data()?.phoneNumber?.slice(1)}`,
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+          .then((res) => res.json())
+          .then((final) => {
+            setShow(show);
+            setStatus(final?.message);
+            setTimeout(() => {
+              setStatus("");
+            }, 2500);
+          });
       });
   };
 
